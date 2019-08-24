@@ -3,5 +3,4 @@ flask_bootstrap
 flask_sqlalchemy
 flask_login
 requests
-time
 bs4
