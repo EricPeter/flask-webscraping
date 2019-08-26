@@ -7,7 +7,7 @@ import os
 # SQLALCHEMY_TRACK_MODIFICATIONS = False
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 #DATABASE_URL = 'sqlite:///db.sqlite3'
-engine = create_engine('DATABASE_URL', convert_unicode=True)
+engine = create_engine('sqlite:///database.db', convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
