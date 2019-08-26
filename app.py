@@ -64,7 +64,7 @@ def index():
 		url = 'https://www.jumia.ug/computing/'
 		response = requests.get(url)
 		data = []
-		soup = BeautifulSoup(response.content , 'html5lib')
+		soup = BeautifulSoup(response.content , 'html.parser')
 		product_name = soup.find_all('span',{'class':'brand'})
 		product_desc = soup.find_all('span',{'class':'name'}) 
 		product_price = soup.find_all('span',{'class':'price-box ri'})
