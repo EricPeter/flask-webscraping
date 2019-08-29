@@ -7,7 +7,7 @@ import requests
 import time
 import re
 from database import  db_session 
-from models import Products , Bucket
+from models import *
 from models import Products as PD
 from sqlalchemy.sql import exists
 import smtplib
@@ -109,8 +109,8 @@ def index():
 		
 		return render_template('index.html',df=df)
 
-@app.route('/Phones')
-def Phones():
+@app.route('/phones')
+def phones():
 	while True:
 		url = 'https://www.jumia.ug/phones-tablets/'
 		response = requests.get(url)
@@ -136,30 +136,29 @@ def Phones():
 			products['Product_price']=price.text.strip()
 			products['Image']=images['src']
 			products['Product_discount'] = discount.text.strip()
-
 			data.append(products)
 			#print(products)
 			#query =PD.query.all()replace('UGX', '')
 			#for dt in query:
 			if((db_session.query(exists().where(Products.product_name ==products['Product_name'])).scalar())&(db_session.query(exists().where(Products.product_desc ==products['Product_desc'])).scalar())):
 				#print('Data already exists!')
-				update_data = Products.query.filter_by(image=products['Image']).update(dict(product_price=products['Product_price']))
+				update_data = Phones.query.filter_by(image=products['Image']).update(dict(product_price=products['Product_price']))
 				db_session.commit()
 				
 				
 			else:
-				pd = Products(products['Product_name'],products['Product_desc'],products['Product_price'],products['Image'],products['Product_discount'])
+				pd = Phones(products['Product_name'],products['Product_desc'],products['Product_price'],products['Image'],products['Product_discount'])
 				db_session.add(pd)
 				db_session.commit()
 		#print(data1)
 		
-		df=RetrieveData()
+		df = Phones.query.all()
 		compare()
 		#time.sleep(10)
-		return render_template('Phones.html',df=df)
+		return render_template('phones.html',df=df)
 
-@app.route('/Fashion')
-def Fashion():
+@app.route('/fashion')
+def fashion():
 	while True:
 		url = 'https://www.jumia.ug/category-fashion-by-jumia/'
 		response = requests.get(url)
@@ -192,17 +191,17 @@ def Fashion():
 			#for dt in query:
 			if((db_session.query(exists().where(Products.product_name ==products['Product_name'])).scalar())&(db_session.query(exists().where(Products.product_desc ==products['Product_desc'])).scalar())):
 				#print('Data already exists!')
-				update_data = Products.query.filter_by(image=products['Image']).update(dict(product_price=products['Product_price']))
+				update_data = Fashion.query.filter_by(image=products['Image']).update(dict(product_price=products['Product_price']))
 				db_session.commit()
 				
 				
 			else:
-				pd = Products(products['Product_name'],products['Product_desc'],products['Product_price'],products['Image'],products['Product_discount'])
+				pd = Fashion(products['Product_name'],products['Product_desc'],products['Product_price'],products['Image'],products['Product_discount'])
 				db_session.add(pd)
 				db_session.commit()
 		#print(data1)
 		
-		df=RetrieveData()
+		df = Fashion.query.all()
 		compare()
 		#time.sleep(10)
 		return render_template('Fashion.html',df=df)
@@ -224,5 +223,5 @@ def bucket():
 
 
 
-#if __name__ == "__main__":
- #   app.run(debug=True, host='127.0.0.1', port=5000)
+# if __name__ == "__main__":
+#    app.run(debug=True, host='127.0.0.1', port=5000)
