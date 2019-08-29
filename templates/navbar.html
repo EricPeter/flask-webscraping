@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>{% block title %}{% endblock%} Webscraper in Python using Flask</title>
 	<!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -36,5 +36,7 @@
     </form>
   </div>
 </nav>
+{% block content %}
+{% endblock %}
 </body>
 </html>
