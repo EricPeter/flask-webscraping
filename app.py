@@ -160,7 +160,7 @@ def phones():
 @app.route('/fashion')
 def fashion():
 	while True:
-		url = 'https://www.jumia.ug/category-fashion-by-jumia/'
+		url = 'https://www.jumia.ug/video-games/'
 		response = requests.get(url)
 		data = []
 		soup = BeautifulSoup(response.content , 'html.parser')
@@ -184,7 +184,7 @@ def fashion():
 			products['Product_price']=price.text.strip()
 			products['Image']=images['src']
 			products['Product_discount'] = discount.text.strip()
-
+			print(products['Product_name'])
 			data.append(products)
 			#print(products)
 			#query =PD.query.all()replace('UGX', '')

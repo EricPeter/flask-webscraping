@@ -17,7 +17,7 @@ class Products(Base):
         self.image = image
         self.product_discount=product_discount
 class Phones(Base):
-    __tablename__ = 'Products'
+    __tablename__ = 'Phones'
     id = Column(Integer, primary_key=True)
     product_name = Column(String(120))
     product_desc = Column(String(120))
@@ -32,7 +32,7 @@ class Phones(Base):
         self.image = image
         self.product_discount=product_discount
 class Fashion(Base):
-    __tablename__ = 'Products'
+    __tablename__ = 'Fashion'
     id = Column(Integer, primary_key=True)
     product_name = Column(String(120))
     product_desc = Column(String(120))
