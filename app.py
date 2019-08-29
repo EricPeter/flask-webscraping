@@ -109,6 +109,104 @@ def index():
 		
 		return render_template('index.html',df=df)
 
+@app.route('/Phones')
+def Phones():
+	while True:
+		url = 'https://www.jumia.ug/phones-tablets/'
+		response = requests.get(url)
+		data = []
+		soup = BeautifulSoup(response.content , 'html.parser')
+		product_name = soup.find_all('span',{'class':'brand'})
+		product_desc = soup.find_all('span',{'class':'name'}) 
+		product_price = soup.find_all('span',{'class':'price-box ri'})
+		images = soup.find_all('img',{'src':re.compile('.jpg')}) 
+		product_discount = soup.find_all('div',{'class':'price-container clearfix'})
+		first_child =soup.find_all('span',{'class':'price-box ri'} )
+		#print(product_discount)
+		children_data=[]
+		for i in first_child:
+			children = i.findChildren("span",recursive=True)[2]
+			children_data.append(children)
+		#print(children_data)
+		for product in zip(images,product_name,product_desc,children_data,product_discount):
+			images,name, desc ,price,discount= product
+			products = {}
+			products['Product_name']=name.text.strip()
+			products['Product_desc']=desc.text.strip()
+			products['Product_price']=price.text.strip()
+			products['Image']=images['src']
+			products['Product_discount'] = discount.text.strip()
+
+			data.append(products)
+			#print(products)
+			#query =PD.query.all()replace('UGX', '')
+			#for dt in query:
+			if((db_session.query(exists().where(Products.product_name ==products['Product_name'])).scalar())&(db_session.query(exists().where(Products.product_desc ==products['Product_desc'])).scalar())):
+				#print('Data already exists!')
+				update_data = Products.query.filter_by(image=products['Image']).update(dict(product_price=products['Product_price']))
+				db_session.commit()
+				
+				
+			else:
+				pd = Products(products['Product_name'],products['Product_desc'],products['Product_price'],products['Image'],products['Product_discount'])
+				db_session.add(pd)
+				db_session.commit()
+		#print(data1)
+		
+		df=RetrieveData()
+		compare()
+		#time.sleep(10)
+		return render_template('Phones.html',df=df)
+
+@app.route('/Fashion')
+def Fashion():
+	while True:
+		url = 'https://www.jumia.ug/category-fashion-by-jumia/'
+		response = requests.get(url)
+		data = []
+		soup = BeautifulSoup(response.content , 'html.parser')
+		product_name = soup.find_all('span',{'class':'brand'})
+		product_desc = soup.find_all('span',{'class':'name'}) 
+		product_price = soup.find_all('span',{'class':'price-box ri'})
+		images = soup.find_all('img',{'src':re.compile('.jpg')}) 
+		product_discount = soup.find_all('div',{'class':'price-container clearfix'})
+		first_child =soup.find_all('span',{'class':'price-box ri'} )
+		#print(product_discount)
+		children_data=[]
+		for i in first_child:
+			children = i.findChildren("span",recursive=True)[2]
+			children_data.append(children)
+		#print(children_data)
+		for product in zip(images,product_name,product_desc,children_data,product_discount):
+			images,name, desc ,price,discount= product
+			products = {}
+			products['Product_name']=name.text.strip()
+			products['Product_desc']=desc.text.strip()
+			products['Product_price']=price.text.strip()
+			products['Image']=images['src']
+			products['Product_discount'] = discount.text.strip()
+
+			data.append(products)
+			#print(products)
+			#query =PD.query.all()replace('UGX', '')
+			#for dt in query:
+			if((db_session.query(exists().where(Products.product_name ==products['Product_name'])).scalar())&(db_session.query(exists().where(Products.product_desc ==products['Product_desc'])).scalar())):
+				#print('Data already exists!')
+				update_data = Products.query.filter_by(image=products['Image']).update(dict(product_price=products['Product_price']))
+				db_session.commit()
+				
+				
+			else:
+				pd = Products(products['Product_name'],products['Product_desc'],products['Product_price'],products['Image'],products['Product_discount'])
+				db_session.add(pd)
+				db_session.commit()
+		#print(data1)
+		
+		df=RetrieveData()
+		compare()
+		#time.sleep(10)
+		return render_template('Fashion.html',df=df)
+
 @app.route('/bucket',methods=['GET','POST'])
 def bucket():
 	if request.method == 'POST':

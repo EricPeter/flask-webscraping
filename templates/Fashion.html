@@ -1,0 +1,38 @@
+{% extends "navbar.html" %}
+    {% block title %} computing {% endblock %} 
+    {% block content %}
+      <table class="table table-striped table-bordered " >
+        <thead class="thead-dark">
+          <tr>
+            <th>Product Image</th>
+            <th>Product Name</th>
+            <th >Product Description</th>
+            <th >Product Price</th>
+            <th>Product Discount</th>
+            <th>Track</th>
+          </tr> 
+        </thead> 
+        <tbody>
+          {% for prd  in df %}
+
+            <tr> 
+
+                <td><img src="{{ prd.image }}" alt="no image"></td>
+                <td>{{ prd.product_name}}</td>
+                <td>{{ prd.product_desc}}</td>
+                <td style="color:green;">UGX{{ prd.product_price}}</td>
+                <td style="color:blue;">{{ prd.product_discount }}</td>
+                <td>
+                    <form action="{{url_for('bucket')}}" method="POST">
+                        <input type="hidden" name="product_name" value="{{ prd.product_name}}">
+                        <input type="hidden" name="product_price" value="{{ prd.product_price}}">
+                        <input type="hidden" name="product_desc" value="{{ prd.product_desc}}">
+                        <input type="hidden" name="image_name" value="{{ prd.image }}">
+                        <button type="submit" class="btn btn-success">Monitor</button>
+                    </form>
+                </td>
+            </tr> 
+            {% endfor %}
+        </tbody>
+      </table>
+      {% endblock %}
