@@ -1,4 +1,4 @@
-from flask import Flask ,render_template,redirect ,url_for, make_response,session,request
+from flask import Flask ,render_template,redirect ,url_for, make_response,session,request,flash
 from flask import jsonify
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -19,6 +19,16 @@ from passlib.hash import pbkdf2_sha256
 from bs4 import BeautifulSoup ,NavigableString ,Comment
 
 app = Flask(__name__)
+app.secret_key='shutthefuckerup'
+app.config['WTF_CSRF_SECRET_KEY'] = "b'f\xfa\x8b{X\x8b\x9eM\x83l\x19\xad\x84\x08\xaa"
+
+# Initialize login manager
+login = LoginManager(app)
+login.init_app(app)
+
+@login.user_loader
+def load_user(id):
+    return Login.query.get(int(id))
 
 def RetrieveData():
 	df = PD.query.all()
@@ -63,8 +73,8 @@ def sendMail():
 	# else:
 	# 	print('its still high')
 
-@app.route('index')
-def index():
+@app.route('/home')
+def home():
 	while True:
 		url = 'https://www.jumia.ug/computing/'
 		response = requests.get(url)
@@ -233,12 +243,12 @@ def invalid_credentials(form, field):
     email= form.email.data
 
     # Check username is invalid
-    user_data = Login.query.filter_by(email=email).first()
+    user_data = Login.query.filter_by(Email=email).first()
     if user_data is None:
         raise ValidationError("Email or password is incorrect")
 
     # Check password in invalid
-    elif not pbkdf2_sha256.verify(password, user_data.password):
+    elif not pbkdf2_sha256.verify(password, user_data.Password):
         raise ValidationError("Email or password is incorrect")
 
 
@@ -262,7 +272,7 @@ class LoginForm(FlaskForm):
 
 
 ###Register
-@app.route("register", methods=['GET', 'POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
 
     reg_form = RegistrationForm()
@@ -276,9 +286,9 @@ def register():
         hashed_pswd = pbkdf2_sha256.hash(password)
 
         # Add username & hashed password to DB
-        user = Login(Email=email, password=hashed_pswd)
-        db.session.add(user)
-        db.session.commit()
+        user = Login(Email=email, Password=hashed_pswd)
+        db_session.add(user)
+        db_session.commit()
 
         flash('Registered successfully. Please login.', 'success')
         return redirect(url_for('login'))
@@ -294,7 +304,7 @@ def login():
     if login_form.validate_on_submit():
         user_object =Login.query.filter_by(Email=login_form.email.data).first()
         login_user(user_object)
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
     return render_template("login.html", form=login_form)
 
@@ -307,5 +317,5 @@ def logout():
     flash('You have logged out successfully', 'success')
     return redirect(url_for('login'))
 
-# if __name__ == "__main__":
-#    app.run(debug=True, host='127.0.0.1', port=5000)
+if __name__ == "__main__":
+   app.run(debug=True, host='127.0.0.1', port=5000)

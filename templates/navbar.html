@@ -22,7 +22,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{{url_for('index')}}">Computing Devices<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{url_for('home')}}">Computing Devices<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{url_for('fashion')}}">Games</a>
@@ -36,7 +36,21 @@
     </form>
   </div>
 </nav>
+<!-- Flash error messages start -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    <!-- The messages, if any, are returned as a list. And not all redenring of the pages will have a message. So we put a condition to check whether the messages list is empty -->
+                    {% if messages %}
+                        <!-- We will set the class form our custom css file we had created earlier. And we want to see the first item in the list. -->
+                        <div class="alert alert-{{ messages[0][0] }} " role="alert">
+                            {{ messages[0][1] }}
+                        </div>
+                        <hr>
+                    {% endif %}
+                {% endwith %}
+                <!-- Flask error messages end -->
+
 {% block content %}
+
 {% endblock %}
 </body>
 </html>

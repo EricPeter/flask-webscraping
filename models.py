@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String ,Float
 from database import Base
+from flask_login import UserMixin
 
 class Products(Base):
     __tablename__ = 'Products'
@@ -63,7 +64,7 @@ class Bucket(Base):
         self.image = image
 
 
-class Login(Base):
+class Login(UserMixin,Base):
     __tablename__='Login'
     id = Column(Integer, primary_key=True)
     Email = Column(String(120))
