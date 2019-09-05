@@ -5,14 +5,14 @@
 <link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
 {% endblock %}
 {% block content %}
-    <h2>Login now!</h2>
-    <p>Enter you Email/password to start web Blocker</p>
+    <h2 class="form-signin-heading">Login now!</h2>
+    <p class="form-signin-heading">Enter you Email/password to start web Blocker</p>
 
     <form action="{{ url_for('login') }}", method="POST" class="form-signin">
         {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
         {{ displayField(form.password, 'Password') }}
         <div class="form-group">
-            <input type="submit" value="Login" class="btn btn-warning">
+            <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block">
         </div>
         {{ form.csrf_token }}
     </form>
