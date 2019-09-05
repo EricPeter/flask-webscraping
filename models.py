@@ -31,6 +31,7 @@ class Phones(Base):
         self.product_price = product_price
         self.image = image
         self.product_discount=product_discount
+
 class Fashion(Base):
     __tablename__ = 'Fashion'
     id = Column(Integer, primary_key=True)
@@ -61,3 +62,12 @@ class Bucket(Base):
         self.product_price = product_price
         self.image = image
 
+
+class Login(Base):
+    __tablename__='Login'
+    id = Column(Integer, primary_key=True)
+    Email = Column(String(120))
+    Password= Column(String(120))
+    def __init__(self,Email,Password):
+        self.Email= Email
+        self.Password = Password

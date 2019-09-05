@@ -11,7 +11,11 @@ from models import *
 from models import Products as PD
 from sqlalchemy.sql import exists
 import smtplib
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 #import mysql.connector
+from passlib.hash import pbkdf2_sha256
 from bs4 import BeautifulSoup ,NavigableString ,Comment
 
 app = Flask(__name__)
@@ -59,7 +63,7 @@ def sendMail():
 	# else:
 	# 	print('its still high')
 
-@app.route('/')
+@app.route('index')
 def index():
 	while True:
 		url = 'https://www.jumia.ug/computing/'
@@ -221,7 +225,87 @@ def bucket():
 	bucket_items = Bucket.query.all()
 	return render_template('bucket.html',bucket_items=bucket_items)
 
+##register and login
+def invalid_credentials(form, field):
+    """ Username and password checker """
 
+    password = field.data
+    email= form.email.data
+
+    # Check username is invalid
+    user_data = Login.query.filter_by(email=email).first()
+    if user_data is None:
+        raise ValidationError("Email or password is incorrect")
+
+    # Check password in invalid
+    elif not pbkdf2_sha256.verify(password, user_data.password):
+        raise ValidationError("Email or password is incorrect")
+
+
+class RegistrationForm(FlaskForm):
+    """ Registration form"""
+
+    email = StringField('email', validators=[InputRequired(message="Email required"), Length(min=4, max=100, message="Email must be between 4 and 25 characters")])
+    password = PasswordField('password', validators=[InputRequired(message="Password required"), Length(min=4, max=25, message="Password must be between 4 and 25 characters")])
+    confirm_pswd = PasswordField('confirm_pswd', validators=[InputRequired(message="Password required"), EqualTo('password', message="Passwords must match")])
+
+    def validate_Email(self, email):
+        user_object = Login.query.filter_by(email=email.data).first()
+        if user_object:
+            raise ValidationError("Email already exists. use a different email.")
+
+class LoginForm(FlaskForm):
+    """ Login form """
+
+    email = StringField('email', validators=[InputRequired(message="Email required")])
+    password = PasswordField('password', validators=[InputRequired(message="Password required"), invalid_credentials])
+
+
+###Register
+@app.route("register", methods=['GET', 'POST'])
+def register():
+
+    reg_form = RegistrationForm()
+
+    # Update database if validation success
+    if reg_form.validate_on_submit():
+        email = reg_form.email.data
+        password = reg_form.password.data
+
+        # Hash password
+        hashed_pswd = pbkdf2_sha256.hash(password)
+
+        # Add username & hashed password to DB
+        user = Login(Email=email, password=hashed_pswd)
+        db.session.add(user)
+        db.session.commit()
+
+        flash('Registered successfully. Please login.', 'success')
+        return redirect(url_for('login'))
+
+    return render_template("register.html", form=reg_form)
+
+@app.route("/", methods=['GET', 'POST'])
+def login():
+
+    login_form = LoginForm()
+
+    # Allow login if validation success
+    if login_form.validate_on_submit():
+        user_object =Login.query.filter_by(Email=login_form.email.data).first()
+        login_user(user_object)
+        return redirect(url_for('index'))
+
+    return render_template("login.html", form=login_form)
+
+
+@app.route("/logout", methods=['GET'])
+def logout():
+
+    # Logout user
+    logout_user()
+    flash('You have logged out successfully', 'success')
+    return redirect(url_for('login'))
 
 # if __name__ == "__main__":
 #    app.run(debug=True, host='127.0.0.1', port=5000)

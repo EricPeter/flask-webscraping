@@ -6,3 +6,7 @@ requests
 bs4
 gunicorn
 psycopg2
+flask_wtf
+wtforms
+wtforms.validators
+passlib
