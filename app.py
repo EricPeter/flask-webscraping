@@ -26,6 +26,8 @@ app.config['WTF_CSRF_SECRET_KEY'] = "b'f\xfa\x8b{X\x8b\x9eM\x83l\x19\xad\x84\x08
 login = LoginManager(app)
 login.init_app(app)
 
+Bootstrap(app)
+
 @login.user_loader
 def load_user(id):
     return Login.query.get(int(id))
@@ -304,6 +306,7 @@ def login():
     if login_form.validate_on_submit():
         user_object =Login.query.filter_by(Email=login_form.email.data).first()
         login_user(user_object)
+        session['logged_in'] =True
         return redirect(url_for('home'))
 
     return render_template("login.html", form=login_form)
@@ -317,5 +320,5 @@ def logout():
     flash('You have logged out successfully', 'success')
     return redirect(url_for('login'))
 
-if __name__ == "__main__":
-   app.run(debug=True, host='127.0.0.1', port=5000)
+# if __name__ == "__main__":
+#    app.run(debug=True, host='127.0.0.1', port=5000)

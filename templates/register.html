@@ -1,12 +1,15 @@
 {% from 'field-macro.html' import displayField %}
 
 {% block title %}Register {% endblock title%}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
+{% endblock %}
 
 {% block content %}
         <h2>Get started!</h2>
-        <p>First time here? Register to start using Rchat</p>
 
-        <form action="{{ url_for('register') }}", method="POST">
+        <form action="{{ url_for('register') }}", method="POST" class="form-signin">
             {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
             {{ displayField(form.password, 'Password') }}
             {{ displayField(form.confirm_pswd, 'Retype Password') }}
