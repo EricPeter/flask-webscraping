@@ -6,19 +6,32 @@
 {% endblock %}
 
 {% block content %}
-        <h2 class="form-signin-heading">Get started!</h2>
-
-        <form action="{{ url_for('register') }}", method="POST" class="form-signin">
-            {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
-            {{ displayField(form.password, 'Password') }}
-            {{ displayField(form.confirm_pswd, 'Retype Password') }}
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-lg btn-primary btn-block">
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3>Sign Up</h3>
+            <div class="d-flex justify-content-end social_icon">
+                <span><i class="fab fa-facebook-square"></i></span>
+                <span><i class="fab fa-google-plus-square"></i></span>
+                <span><i class="fab fa-twitter-square"></i></span>
+                </div>
             </div>
-            {{ form.csrf_token }}
-        </form>
-
-        <hr>
-
-        <p>Already registered? <a href="{{url_for('login')}}">Login here</a>.</p>
+            <div class="card-body">
+                <form action="{{ url_for('register') }}", method="POST" class="form-signin">
+                    {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
+                    {{ displayField(form.password, 'Password') }}
+                    {{ displayField(form.confirm_pswd, 'Retype Password') }}
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        <input type="submit" value="SignUp" class="btn float-right login_btn">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center links">
+                    Already registered?<a href="{{url_for('login')}}">SignIn</a>
+                </div>
+            </div>
+        </div>
+</div>
 {% endblock %}
