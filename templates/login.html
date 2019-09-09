@@ -9,19 +9,41 @@
 {% endblock %}
 {% block content %}
    
-    <div class="container">
-         <h2 class="form-signin-heading">Login now!</h2>
-         <p class="form-signin-heading">Enter you Email/password to start web Blocker</p>
-         <form action="{{ url_for('login') }}", method="POST" class="form-signin">
-        {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
-        {{ displayField(form.password, 'Password') }}
-        <div class="form-group">
-            <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block">
+<div class="container">
+    <div class="d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+                <h3>Sign In</h3>
+                <div class="d-flex justify-content-end social_icon">
+                    <span><i class="fab fa-facebook-square"></i></span>
+                    <span><i class="fab fa-google-plus-square"></i></span>
+                    <span><i class="fab fa-twitter-square"></i></span>
+                </div>
+            </div>
+            <div class="card-body">
+                 <form action="{{ url_for('login') }}", method="POST" class="form-signin">
+                {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
+                {{ displayField(form.password, 'Password') }}
+                <div class="row align-items-center remember">
+                    <input type="checkbox">Remember Me
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn float-right login_btn">
+                </div>
+                {{ form.csrf_token }}
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center links">
+                    Don't have an account?<a href="{{url_for('register')}}">Sign Up</a>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <a href="#">Forgot your password?</a>
+                </div>
+            </div>
         </div>
-        {{ form.csrf_token }}
-    </form>
-    <p>Have not registered? <a href="{{url_for('register')}}">Register here</a>.</p>
     </div>
+</div>
    
 
     <hr>
