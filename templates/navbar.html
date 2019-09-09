@@ -32,13 +32,11 @@
         <a class="nav-link" href="{{url_for('phones')}}">Tablets and Phones</a>
       </li>
     </ul>
-    {% if 'email' in session%}
-    {% username = session['email']%}
-    <p>{{username}}</p>
-    {% endif%}
-        <form class="form-inline my-2 my-lg-0">
-      <a class="btn btn-outline-success my-2 my-sm-0" href="{{url_for('logout')}}">Logout</a>
-    </form>
+    
+        <form class="form-inline my-2 my-lg-0" action="{{url_for('session')}}">
+          <p>{{username}}</p>
+          <a class="btn btn-outline-success my-2 my-sm-0" href="{{url_for('logout')}}">Logout</a>
+        </form>
   </div>
 </nav>
 <!-- Flash error messages start -->
