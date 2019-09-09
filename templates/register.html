@@ -1,13 +1,11 @@
 {% from 'field-macro.html' import displayField %}
-
-{% block title %}Register {% endblock title%}
+{% block title %}{% endblock title%}
 {% block styles %}
 <link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
 <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
-
 {% block content %}
 <div class="container">
     <div class="card">
@@ -17,17 +15,17 @@
                 <span><i class="fab fa-facebook-square"></i></span>
                 <span><i class="fab fa-google-plus-square"></i></span>
                 <span><i class="fab fa-twitter-square"></i></span>
-                </div>
             </div>
+        </div>
             <div class="card-body">
-                <form action="{{ url_for('register') }}", method="POST" class="form-signin">
+                <form action="{{url_for('register') }}", method="POST" class="form-signin">
                     {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
                     {{ displayField(form.password, 'Password') }}
                     {{ displayField(form.confirm_pswd, 'Retype Password') }}
-                    {{ form.csrf_token }}
                     <div class="form-group">
                         <input type="submit" value="SignUp" class="btn float-right login_btn">
                     </div>
+                    {{ form.csrf_token }}
                 </form>
             </div>
             <div class="card-footer">
