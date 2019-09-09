@@ -313,11 +313,11 @@ def login():
 
     return render_template("login.html", form=login_form)
 
-# @app.route("/session", methods=['GET', 'POST'])
-# def session():
-# 	if 'email' in session:
-# 		username = session['email']
-#     return render_template("navbar.html", username=username)
+@app.route("/session", methods=['GET', 'POST'])
+def session():
+	if 'email' in session:
+		username = session['email']
+    return render_template("navbar.html", username=username)
 
 @app.route("/logout", methods=['GET'])
 def logout():
