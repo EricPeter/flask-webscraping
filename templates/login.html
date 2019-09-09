@@ -3,12 +3,16 @@
 {% block title %}Login {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
+<link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 {% block content %}
-    <h2 class="form-signin-heading">Login now!</h2>
-    <p class="form-signin-heading">Enter you Email/password to start web Blocker</p>
-
-    <form action="{{ url_for('login') }}", method="POST" class="form-signin">
+   
+    <div class="container">
+         <h2 class="form-signin-heading">Login now!</h2>
+         <p class="form-signin-heading">Enter you Email/password to start web Blocker</p>
+         <form action="{{ url_for('login') }}", method="POST" class="form-signin">
         {{ displayField(form.email, 'Email', autocomplete="off", autofocus=true) }}
         {{ displayField(form.password, 'Password') }}
         <div class="form-group">
@@ -16,8 +20,9 @@
         </div>
         {{ form.csrf_token }}
     </form>
+    <p>Have not registered? <a href="{{url_for('register')}}">Register here</a>.</p>
+    </div>
+   
 
     <hr>
-
-    <p>Have not registered? <a href="{{url_for('register')}}">Register here</a>.</p>
 {% endblock %}
