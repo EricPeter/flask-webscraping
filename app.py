@@ -309,8 +309,7 @@ def login():
         login_user(user_object)
         session['logged_in'] =True
         # login_user(user_object, remember=form.remember_me.data)
-        if current_user.is_authenticated:
-        	return redirect(url_for('home'))
+        return redirect(url_for('home'))
 
 
     return render_template("login.html", form=login_form)
