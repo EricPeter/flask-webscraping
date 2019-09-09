@@ -121,7 +121,7 @@ def home():
 		
 		df=RetrieveData()
 		compare()
-		#time.sleep(10)
+		time.sleep(10)
 		
 		return render_template('index.html',df=df)
 
