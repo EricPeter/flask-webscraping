@@ -306,18 +306,19 @@ def login():
     if login_form.validate_on_submit():
         user_object =Login.query.filter_by(Email=login_form.email.data).first()
         session['email'] = login_form.email.data
+        print(session['email'])
         login_user(user_object)
         session['logged_in'] =True
-        return redirect(url_for('home'),username=session['email'])
+        return redirect(url_for('home'))
 
 
     return render_template("login.html", form=login_form)
 
-@app.route("/session", methods=['GET', 'POST'])
-def session():
-	if 'email' in session:
-		username = session['email']
-    return render_template("navbar.html", username=username)
+# @app.route("/session", methods=['GET', 'POST'])
+# def session():
+# 	if 'email' in session:
+# 		username = session['email']
+#     return render_template("navbar.html", username=username)
 
 @app.route("/logout", methods=['GET'])
 def logout():
