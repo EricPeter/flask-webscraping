@@ -300,7 +300,7 @@ def register():
 @app.route("/", methods=['GET', 'POST'])
 def login():
 	if current_user.is_authenticated:
-        return redirect(url_for('home'))
+		return redirect(url_for('home'))
     login_form = LoginForm()
     # Allow login if validation success
     if login_form.validate_on_submit():
