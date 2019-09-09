@@ -121,7 +121,7 @@ def home():
 		
 		df=RetrieveData()
 		compare()
-		time.sleep(10)
+		time.sleep(15)
 		
 		return render_template('index.html',df=df)
 
@@ -170,7 +170,7 @@ def phones():
 		
 		df = Phones.query.all()
 		compare()
-		#time.sleep(10)
+		time.sleep(10)
 		return render_template('phones.html',df=df)
 
 @app.route('/fashion')
@@ -219,7 +219,7 @@ def fashion():
 		
 		df = Fashion.query.all()
 		compare()
-		#time.sleep(10)
+		time.sleep(10)
 		return render_template('Fashion.html',df=df)
 
 @app.route('/bucket',methods=['GET','POST'])
