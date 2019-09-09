@@ -302,6 +302,9 @@ def login():
 
     login_form = LoginForm()
 
+    if request.method == 'POST':
+    	session['email'] = request.form['email']
+
     # Allow login if validation success
     if login_form.validate_on_submit():
         user_object =Login.query.filter_by(Email=login_form.email.data).first()
