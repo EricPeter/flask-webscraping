@@ -308,8 +308,8 @@ def login():
         session['email'] = login_form.email.data
         login_user(user_object)
         session['logged_in'] =True
-        # return redirect(url_for('home'))
-        return render_template("home", username=session['email'])
+        return redirect(url_for('home'),username=session['email'])
+
 
     return render_template("login.html", form=login_form)
 
