@@ -305,10 +305,10 @@ def login():
     # Allow login if validation success
     if login_form.validate_on_submit():
         user_object =Login.query.filter_by(Email=login_form.email.data).first()
-        session['email'] = login_form.email.data
-        print(session['email'])
+        # session['email'] = login_form.email.data
         login_user(user_object)
         session['logged_in'] =True
+        # login_user(user_object, remember=form.remember_me.data)
         return redirect(url_for('home'))
 
 
