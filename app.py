@@ -16,6 +16,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 #import mysql.connector
 from passlib.hash import pbkdf2_sha256
+import flask_login
 from bs4 import BeautifulSoup ,NavigableString ,Comment
 
 app = Flask(__name__)
@@ -74,7 +75,7 @@ def sendMail():
 	# 	print('buy now')
 	# else:
 	# 	print('its still high')
-
+@flask_login.login_required
 @app.route('/home')
 def home():
 	while True:
@@ -122,8 +123,8 @@ def home():
 		df=RetrieveData()
 		compare()
 		time.sleep(15)
-		
-		return render_template('index.html',df=df)
+		users=flask_login.current_user.Email
+		return render_template('index.html',df=df,users=users)
 
 @app.route('/phones')
 def phones():
@@ -317,6 +318,7 @@ def login():
 		user_object=Login.query.filter_by(Email=login_form.email.data).first()
 		login_user(user_object)
 		session['logged_in']=True
+		 flask_login.login_user(user_object)
 		return redirect(url_for('home'))
 	return render_template("login.html",form=login_form)
 
