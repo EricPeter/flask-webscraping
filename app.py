@@ -123,8 +123,16 @@ def home():
 		df=RetrieveData()
 		compare()
 		time.sleep(15)
-		users=flask_login.current_user.Email
-		return render_template('index.html',df=df,users=users)
+		
+		return render_template('index.html',df=df)
+		
+@flask_login.login_required
+@app.route('/profile')
+def profile():
+	users=flask_login.current_user.Email
+	return render_template('navbar.html',users=users)
+
+
 
 @app.route('/phones')
 def phones():
