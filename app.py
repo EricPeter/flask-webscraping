@@ -123,15 +123,8 @@ def home():
 		df=RetrieveData()
 		compare()
 		time.sleep(15)
-		
-		return render_template('index.html',df=df)
-		
-@flask_login.login_required
-@app.route('/profile')
-def profile():
-	users=flask_login.current_user.Email
-	return render_template('navbar.html',users=users)
-
+		users=flask_login.current_user.Email
+		return render_template('index.html',df=df,users=users)
 
 
 @app.route('/phones')
@@ -180,7 +173,8 @@ def phones():
 		df = Phones.query.all()
 		compare()
 		time.sleep(10)
-		return render_template('phones.html',df=df)
+		users=flask_login.current_user.Email
+		return render_template('phones.html',df=df,users=users)
 
 @app.route('/fashion')
 def fashion():
@@ -229,7 +223,8 @@ def fashion():
 		df = Fashion.query.all()
 		compare()
 		time.sleep(10)
-		return render_template('Fashion.html',df=df)
+		users=flask_login.current_user.Email
+		return render_template('Fashion.html',df=df,users=users)
 
 @app.route('/bucket',methods=['GET','POST'])
 def bucket():
@@ -244,7 +239,8 @@ def bucket():
 		
 
 	bucket_items = Bucket.query.all()
-	return render_template('bucket.html',bucket_items=bucket_items)
+	users=flask_login.current_user.Email
+	return render_template('bucket.html',bucket_items=bucket_items,users=users)
 
 ##register and login
 def invalid_credentials(form, field):
