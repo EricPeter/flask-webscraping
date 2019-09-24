@@ -36,8 +36,14 @@
         <a class="nav-link" href="{{url_for('phones')}}">Tablets and Phones</a>
       </li>
     </ul>
-    <img src="{{url_for('static',filename='user.png')}}"><br/><br/>
-    <p>{{ users }}</p>
+    <div >
+     <div class="row">
+       <img src="{{url_for('static',filename='user.png')}}">
+     </div>
+     <div class="row">
+        <p>{{ users }}</p>
+     </div>
+    </div>
         <form class="form-inline my-2 my-lg-0" action="">
           <a class="btn btn-outline-success my-2 my-sm-0" href="{{url_for('logout')}}">Logout</a>
         </form>
