@@ -318,7 +318,7 @@ def login():
 		user_object=Login.query.filter_by(Email=login_form.email.data).first()
 		login_user(user_object)
 		session['logged_in']=True
-		 flask_login.login_user(user_object)
+		flask_login.login_user(user_object)
 		return redirect(url_for('home'))
 	return render_template("login.html",form=login_form)
 
