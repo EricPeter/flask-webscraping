@@ -22,11 +22,17 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+       <li class="nav-item active">
+        Categories
+      </li>
       <li class="nav-item active">
         <a class="nav-link" href="{{url_for('home')}}">Computing Devices<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{url_for('fashion')}}">Games</a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link" href="{{url_for('bucket')}}">Games</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{url_for('phones')}}">Tablets and Phones</a>
@@ -34,7 +40,7 @@
     </ul>
     
         <form class="form-inline my-2 my-lg-0" action="">
-          <p>{{ users }}</p>
+          <!-- <p>{{ users }}</p> --><img src="http://blog.duanshishi.com/flask-profile-page-and-avatars/{{ users.avatar(128) }}">
           <a class="btn btn-outline-success my-2 my-sm-0" href="{{url_for('logout')}}">Logout</a>
         </form>
   </div>
