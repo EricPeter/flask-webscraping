@@ -30,12 +30,20 @@
         <a class="nav-link" href="{{url_for('fashion')}}">Games</a>
       </li>
        <li class="nav-item">
-        <a class="nav-link" href="{{url_for('bucket')}}">Games</a>
+        <a class="nav-link" href="{{url_for('bucket')}}">Bucket</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{url_for('phones')}}">Tablets and Phones</a>
       </li>
     </ul>
+    <div >
+     <div class="row">
+       <img src="{{url_for('static',filename='user.png')}}">
+     </div>
+     <div class="row">
+        <p>{{ users }}</p>
+     </div>
+    </div>
     <div >
      <div class="row">
        <img src="{{url_for('static',filename='user.png')}}">
