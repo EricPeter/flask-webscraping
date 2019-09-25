@@ -63,7 +63,7 @@ class Bucket(Base):
         self.product_desc = product_desc
         self.product_price = product_price
         self.image = image
-        self.user=users
+        self.users=users
 
 
 class Login(UserMixin,Base):
