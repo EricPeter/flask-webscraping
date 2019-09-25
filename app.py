@@ -228,7 +228,7 @@ def fashion():
 
 @app.route('/bucket',methods=['GET','POST'])
 def bucket():
-	users=flask_login.current_user.Email
+	
 	if request.method == 'POST':
 		product = request.form['product_name']
 		price = request.form['product_price']
@@ -237,8 +237,7 @@ def bucket():
 		item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,users=users)
 		db_session.add(item)
 		db_session.commit()
-		
-
+	users=flask_login.current_user.Email
 	bucket_items = Bucket.query.all()
 	return render_template('bucket.html',bucket_items=bucket_items,users=users)
 
