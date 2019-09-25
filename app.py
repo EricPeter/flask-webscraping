@@ -234,10 +234,11 @@ def bucket():
 		price = request.form['product_price']
 		desc=request.form['product_desc']
 		image= request.form['image_name']
+		users=flask_login.current_user.Email
 		item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,users=users)
 		db_session.add(item)
 		db_session.commit()
-	users=flask_login.current_user.Email
+
 	bucket_items = Bucket.query.all()
 	return render_template('bucket.html',bucket_items=bucket_items,users=users)
 
