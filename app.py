@@ -76,6 +76,7 @@ def sendMail():
 	# else:
 	# 	print('its still high')
 @flask_login.login_required
+users=flask_login.current_user.Email
 @app.route('/home')
 def home():
 	while True:
@@ -123,7 +124,7 @@ def home():
 		df=RetrieveData()
 		compare()
 		time.sleep(15)
-		users=flask_login.current_user.Email
+		# users=flask_login.current_user.Email
 		return render_template('index.html',df=df,users=users)
 
 
@@ -173,7 +174,7 @@ def phones():
 		df = Phones.query.all()
 		compare()
 		time.sleep(10)
-		users=flask_login.current_user.Email
+		# users=flask_login.current_user.Email
 		return render_template('phones.html',df=df,users=users)
 
 @app.route('/fashion')
@@ -223,7 +224,7 @@ def fashion():
 		df = Fashion.query.all()
 		compare()
 		time.sleep(10)
-		users=flask_login.current_user.Email
+		# users=flask_login.current_user.Email
 		return render_template('Fashion.html',df=df,users=users)
 
 @app.route('/bucket',methods=['GET','POST'])
@@ -234,7 +235,6 @@ def bucket():
 		price = request.form['product_price']
 		desc=request.form['product_desc']
 		image= request.form['image_name']
-		users=flask_login.current_user.Email
 		item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,users=users)
 		db_session.add(item)
 		db_session.commit()
