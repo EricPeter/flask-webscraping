@@ -48,9 +48,10 @@
      <div class="row">
        <img src="{{url_for('static',filename='user.png')}}">
      </div>
-     <!-- <div class="row">
-        <a class="nav-link" href="{{url_for('bucket')}}">Bucket</a>
-     </div> -->
+     <div class="row">
+        <p>{{users}}</p>
+     </div>
+
     </div>
         <form class="form-inline my-2 my-lg-0" action="">
           <a class="btn btn-outline-success my-2 my-sm-0" href="{{url_for('logout')}}">Logout</a>
