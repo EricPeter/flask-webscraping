@@ -233,7 +233,7 @@ def bucket():
 		desc=request.form['product_desc']
 		image= request.form['image_name']
 
-		if((db_session.query(exists().where(Bucket.product_name ==product)).scalar())&(db_session.query(exists().where(Bucket.username=user)).scalar())):
+		if((db_session.query(exists().where(Bucket.product_name ==product)).scalar())&(db_session.query(exists().where(Bucket.username==user)).scalar())):
 			 flash('Product already exists','error')
 		else:
 			item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,username=user)
