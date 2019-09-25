@@ -46,9 +46,11 @@ def compare():
 				old_price=float(x.product_price.replace(',',''))
 				# break
 				if current_price < old_price:
-					sendMail()
+
+					sendMail(x.image)
 	
-def sendMail():
+def sendMail(x):
+	users=flask_login.current_user.Email
 	server = smtplib.SMTP('smtp.gmail.com',587)
 	server.ehlo()
 	server.starttls()
@@ -56,25 +58,18 @@ def sendMail():
 
 	server.login('kigaye.ericpeter@gmail.com','tfxcwzmgcjwdgsro')
 	subject  = 'Price fell down!'
-	body = 'check out the link https://www.jumia.ug/computing/'
+	body = x
 	msg = f"Subject:{subject}\n\n{body}"
 
 	server.sendmail(
 		'kigaye.ericpeter@gmail.com',
-		'tobiusaolo21@gmail.com',
+		users,
 		msg
 		)
-	print('HEY EMAIL HAS BEEN SENT!')
+
 	server.quit()
 
-	# p1 = proddb.product_price
-	# print(p1)
-	# p2 = bucketdb.product_price
-
-	# if p2 < p1:
-	# 	print('buy now')
-	# else:
-	# 	print('its still high')
+	
 @flask_login.login_required
 @app.route('/home')
 def home():
@@ -122,6 +117,7 @@ def home():
 		
 		df=RetrieveData()
 		compare()
+
 		time.sleep(15)
 		users=flask_login.current_user.Email
 		return render_template('index.html',df=df,users=users)
@@ -222,10 +218,11 @@ def fashion():
 		
 		df = Fashion.query.all()
 		compare()
+
 		time.sleep(10)
 		users=flask_login.current_user.Email
 		return render_template('Fashion.html',df=df,users=users)
-		
+
 @flask_login.login_required
 @app.route('/bucket',methods=['GET','POST'])
 def bucket():
@@ -235,13 +232,28 @@ def bucket():
 		price = request.form['product_price']
 		desc=request.form['product_desc']
 		image= request.form['image_name']
-		
-		item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,username=user)
-		db_session.add(item)
-		db_session.commit()
 
-	bucket_items = Bucket.query.all()
-	return render_template('bucket.html',bucket_items=bucket_items,users=user)
+		if((db_session.query(exists().where(Bucket.product_name ==product)).scalar())&(db_session.query(exists().where(Bucket.product_desc ==desc)).scalar())):
+			 flash('Product already exists','error')
+		else:
+			item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,username=user)
+			db_session.add(item)
+			db_session.commit()
+	bucket_items = Bucket.query.filter_by(username=user)
+	counts= Bucket.query.filter_by(username=user).count()
+	return render_template('bucket.html',bucket_items=bucket_items,users=user,counts=counts)
+#deleting from the bucket
+@flask_login.login_required
+@app.route('/delete',methods=['GET','POST'])
+def delete():
+	user=flask_login.current_user.Email
+	if request.method == 'POST':
+		product = request.form['product_name']
+		price = request.form['price']
+		bucket_items = Bucket.query.filter_by(username=user,product_price=price,product_name=product).first()
+		db_session.delete(bucket_items)
+		db_session.commit()
+	return redirect(url_for('bucket'))
 
 ##register and login
 def invalid_credentials(form, field):
@@ -336,6 +348,7 @@ def logout():
     logout_user()
     flash('You have logged out successfully', 'success')
     return redirect(url_for('login'))
+
 
 # if __name__ == "__main__":
 #    app.run(debug=True, host='127.0.0.1', port=5000)
