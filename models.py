@@ -49,7 +49,7 @@ class Fashion(Base):
         self.image = image
         self.product_discount=product_discount
 
-class Bucket(Base):
+class Bucket(UserMixin,Base):
     __tablename__='Bucket'
     id = Column(Integer, primary_key=True)
     product_name = Column(String(120))
