@@ -239,7 +239,7 @@ def bucket():
 		db_session.commit()
 		
 
-	bucket_items = Bucket.query.filter_by(users=users)
+	bucket_items = Bucket.query.all()
 	return render_template('bucket.html',bucket_items=bucket_items,users=users)
 
 ##register and login
