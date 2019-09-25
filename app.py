@@ -228,13 +228,13 @@ def fashion():
 
 @app.route('/bucket',methods=['GET','POST'])
 def bucket():
-	
+	user=flask_login.current_user.Email
 	if request.method == 'POST':
 		product = request.form['product_name']
 		price = request.form['product_price']
 		desc=request.form['product_desc']
 		image= request.form['image_name']
-		user=flask_login.current_user.Email
+		
 		item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,users=user)
 		db_session.add(item)
 		db_session.commit()
