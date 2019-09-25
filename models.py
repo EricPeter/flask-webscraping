@@ -55,15 +55,15 @@ class Bucket(Base):
     product_name = Column(String(120))
     product_desc = Column(String(120))
     product_price = Column(String(120))
-    users=Column(String(120))
+    username=Column(String(120))
     image=Column(String(300))
 
-    def __init__(self, product_name,product_desc,product_price,image,users):
+    def __init__(self, product_name,product_desc,product_price,image,username):
         self.product_name = product_name
         self.product_desc = product_desc
         self.product_price = product_price
         self.image = image
-        self.users=users
+        self.username=username
 
 
 class Login(UserMixin,Base):

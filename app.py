@@ -126,7 +126,7 @@ def home():
 		users=flask_login.current_user.Email
 		return render_template('index.html',df=df,users=users)
 
-
+@flask_login.login_required
 @app.route('/phones')
 def phones():
 	while True:
@@ -175,7 +175,7 @@ def phones():
 		time.sleep(10)
 		users=flask_login.current_user.Email
 		return render_template('phones.html',df=df,users=users)
-
+@flask_login.login_required
 @app.route('/fashion')
 def fashion():
 	while True:
@@ -225,7 +225,8 @@ def fashion():
 		time.sleep(10)
 		users=flask_login.current_user.Email
 		return render_template('Fashion.html',df=df,users=users)
-
+		
+@flask_login.login_required
 @app.route('/bucket',methods=['GET','POST'])
 def bucket():
 	user=flask_login.current_user.Email
@@ -235,7 +236,7 @@ def bucket():
 		desc=request.form['product_desc']
 		image= request.form['image_name']
 		
-		item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,users=user)
+		item = Bucket(product_name=product,product_desc=desc,product_price=price,image=image,username=user)
 		db_session.add(item)
 		db_session.commit()
 
